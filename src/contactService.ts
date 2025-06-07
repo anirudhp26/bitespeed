@@ -31,7 +31,10 @@ export class ContactService {
     
     if (primaryContacts.length === 0) {
       const linkedContact = existingContacts[0];
-      const primaryId = linkedContact.linkedId!;
+      const primaryId = linkedContact.linkedId;
+      if (!primaryId) {
+        throw new Error('Primary contact not found, Invalid data');
+      }
       return await this.buildResponse(primaryId, request);
     }
 
@@ -52,6 +55,7 @@ export class ContactService {
       return await this.buildResponse(primaryContact.id, request);
     }
 
+    // Data not consistent, so we need to sort the primaries by createdAt
     const sortedPrimaries = primaryContacts.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
     const mainPrimary = sortedPrimaries[0];
     const secondariesToUpdate = sortedPrimaries.slice(1);
@@ -93,7 +97,10 @@ export class ContactService {
   private async buildResponse(primaryId: number, request: IdentifyRequest): Promise<IdentifyResponse> {
     const allLinkedContacts = await this.db.findAllLinkedContacts(primaryId);
     
-    const primaryContact = allLinkedContacts.find(c => c.linkPrecedence === LinkPrecedence.primary)!;
+    const primaryContact = allLinkedContacts.find(c => c.linkPrecedence === LinkPrecedence.primary);
+    if (!primaryContact) {
+      throw new Error('Primary contact not found, Invalid data');
+    }
     const secondaryContacts = allLinkedContacts.filter(c => c.linkPrecedence === LinkPrecedence.secondary);
 
     const emails = new Set<string>();
