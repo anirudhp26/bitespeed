@@ -147,6 +147,10 @@ const config = {
         "fromEnvVar": null,
         "value": "windows",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "rhel-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -173,8 +177,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/client\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Contact {\n  id             Int            @id @default(autoincrement())\n  phoneNumber    String?        @map(\"phone_number\") @db.VarChar(20)\n  email          String?        @db.VarChar(255)\n  linkedId       Int?           @map(\"linked_id\")\n  linkPrecedence LinkPrecedence @map(\"link_precedence\")\n  createdAt      DateTime       @default(now()) @map(\"created_at\")\n  updatedAt      DateTime       @updatedAt @map(\"updated_at\")\n  deletedAt      DateTime?      @map(\"deleted_at\")\n\n  linkedContact  Contact?  @relation(\"ContactLink\", fields: [linkedId], references: [id])\n  linkedContacts Contact[] @relation(\"ContactLink\")\n\n  @@map(\"contacts\")\n}\n\nenum LinkPrecedence {\n  primary\n  secondary\n}\n",
-  "inlineSchemaHash": "95bef43af9378acd619ec77d197678b3c329c765eadaa3adcbf130e6a64ab014",
+  "inlineSchema": "generator client {\n  provider      = \"prisma-client-js\"\n  output        = \"./generated/client\"\n  binaryTargets = [\"native\", \"rhel-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Contact {\n  id             Int            @id @default(autoincrement())\n  phoneNumber    String?        @map(\"phone_number\") @db.VarChar(20)\n  email          String?        @db.VarChar(255)\n  linkedId       Int?           @map(\"linked_id\")\n  linkPrecedence LinkPrecedence @map(\"link_precedence\")\n  createdAt      DateTime       @default(now()) @map(\"created_at\")\n  updatedAt      DateTime       @updatedAt @map(\"updated_at\")\n  deletedAt      DateTime?      @map(\"deleted_at\")\n\n  linkedContact  Contact?  @relation(\"ContactLink\", fields: [linkedId], references: [id])\n  linkedContacts Contact[] @relation(\"ContactLink\")\n\n  @@map(\"contacts\")\n}\n\nenum LinkPrecedence {\n  primary\n  secondary\n}\n",
+  "inlineSchemaHash": "c8bf2a0a90e9bfcd42a1df6d30d12e0849ff865f1d440d596556ca725b239df4",
   "copyEngine": true
 }
 config.dirname = '/'
