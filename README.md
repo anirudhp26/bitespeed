@@ -1,5 +1,7 @@
 # Bitespeed Identity Reconciliation Service
 
+🌐 **Live Demo:** [https://bitespeed-zeta.vercel.app/](https://bitespeed-zeta.vercel.app/)
+
 The service uses a hierarchical contact linking system:
 - **Primary Contacts**: The main contact record that serves as the consolidation point
 - **Secondary Contacts**: Related contacts that are linked to a primary contact
