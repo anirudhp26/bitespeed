@@ -36,6 +36,12 @@ app.post('/identify', async (req, res) => {
         });
     }
 });
+app.get('/', (req, res) => {
+    res.json({
+        message: 'Bitespeed Identity Reconciliation Service is running',
+        health: 'OK'
+    });
+});
 app.use((err, req, res, next) => {
     console.error('Unhandled error:', err);
     res.status(500).json({
